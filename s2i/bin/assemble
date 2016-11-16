@@ -4,6 +4,8 @@ set -x
 
 set -eo pipefail
 
+rm -f /opt/app-root/src/requirements.txt
+
 /usr/libexec/s2i/assemble
 
 if [ -x ./create ]; then

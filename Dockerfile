@@ -8,14 +8,15 @@ COPY data.csv /opt/app-root/src/
 
 COPY s2i /opt/app-root/s2i
 
+USER root
+
+RUN chown -fR 1001 /opt/app-root
+
+USER 1001
+
 RUN rm -rf .local && \
     source scl_source enable python27 && \
-    pip install --no-cache --user -r requirements.txt && \
-    rm requirements.txt && \
-    chown -R 1001 .local && \
-    find .local -type d -exec chmod -f g+rwx,o+rx {} \; && \
-    find .local -perm 2755 -exec chmod -f g+w {} \; && \
-    find .local -perm 0644 -exec chmod -f g+w {} \;
+    pip install --no-cache --user -r /opt/app-root/src/requirements.txt
 
 LABEL io.k8s.description="S2I builder for spatial dataset backends." \
       io.k8s.display-name="Spatial Dataset Backend Generator" \
