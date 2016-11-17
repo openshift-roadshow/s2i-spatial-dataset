@@ -4,19 +4,13 @@ set -x
 
 set -eo pipefail
 
-virtualenv /opt/app-root
-
-PATH=/opt/app-root/bin:$PATH
-
-source /opt/app-root/bin/activate
-
-pip install --no-cache mod_wsgi Flask flask-restful pymongo
-
 rm -rf /tmp/src/.git*
 
 cp -Rf /tmp/src/. .
 
 rm -rf /tmp/src
+
+source /opt/app-root/bin/activate
 
 if [ -f requirements.txt ]; then
     pip install --no-cache -r requirements.txt

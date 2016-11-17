@@ -9,7 +9,13 @@ COPY s2i /opt/app-root/s2i
 
 USER root
 
-RUN chown -fR 1001 /opt/app-root
+RUN source scl_source enable python27 && \
+    virtualenv /opt/app-root && \
+    source /opt/app-root/bin/activate && \
+    pip install --no-cache mod_wsgi Flask flask-restful pymongo && \
+    chmod -Rf g+w /opt/app-root
+
+ENV PATH=/opt/app-root/bin:$PATH
 
 USER 1001
 

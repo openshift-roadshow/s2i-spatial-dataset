@@ -4,8 +4,6 @@ set -x
 
 set -eo pipefail
 
-PATH=/opt/app-root/bin:$PATH
-
 source /opt/app-root/bin/activate
 
 exec mod_wsgi-express start-server \
