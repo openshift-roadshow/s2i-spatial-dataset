@@ -4,9 +4,23 @@ set -x
 
 set -eo pipefail
 
-rm -f /opt/app-root/src/requirements.txt
+virtualenv /opt/app-root
 
-/usr/libexec/s2i/assemble
+PATH=/opt/app-root/bin:$PATH
+
+source /opt/app-root/bin/activate
+
+pip install --no-cache mod_wsgi Flask flask-restful pymongo
+
+rm -rf /tmp/src/.git*
+
+cp -Rf /tmp/src/. .
+
+rm -rf /tmp/src
+
+if [ -f requirements.txt ]; then
+    pip install --no-cache -r requirements.txt
+fi
 
 if [ -x ./create ]; then
     ./create

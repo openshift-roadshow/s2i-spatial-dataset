@@ -4,4 +4,17 @@ set -x
 
 set -eo pipefail
 
-exec /usr/libexec/s2i/run
+PATH=/opt/app-root/bin:$PATH
+
+source /opt/app-root/bin/activate
+
+exec mod_wsgi-express start-server \
+  --log-to-terminal \
+  --log-level info \
+  --access-log \
+  --port 8080 \
+  --trust-proxy-header X-Forwarded-For \
+  --trust-proxy-header X-Forwarded-Port \
+  --trust-proxy-header X-Forwarded-Proto \
+  --inactivity-timeout 60 \
+  /opt/app-root/wsgi.py
