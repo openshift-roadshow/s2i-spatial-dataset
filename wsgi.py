@@ -3,6 +3,7 @@ from __future__ import print_function
 import os
 import csv
 import json
+import time
 
 from flask import Flask, request
 from flask_restful import Resource, Api
@@ -30,6 +31,23 @@ with open('info.json') as fp:
 client = MongoClient(DB_URI)
 database = client[DB_NAME]
 collection = database[DATASET_INFO['id']]
+
+class Siege(Resource):
+    def get(self):
+        args = request.args
+
+        duration = float(args.get('duration', '0.25'))
+
+        end_time = time.time() + duration
+
+        x = 123.456
+
+        while time.time() < end_time:
+            x**x
+
+        return 'OK'
+
+api.add_resource(Siege, '/ws/siege/')
 
 class HealthCheck(Resource):
     def get(self):
