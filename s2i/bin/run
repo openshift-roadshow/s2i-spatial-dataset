@@ -6,11 +6,16 @@ set -eo pipefail
 
 source /opt/app-root/bin/activate
 
+MOD_WSGI_PROCESSES=${MOD_WSGI_PROCESSES:-3}
+MOD_WSGI_THREADS=${MOD_WSGI_THREADS:-15}
+
 exec mod_wsgi-express start-server \
   --log-to-terminal \
   --log-level info \
   --access-log \
   --port 8080 \
+  --processes ${MOD_WSGI_PROCESSES} \
+  --threads ${MOD_WSGI_THREADS} \
   --trust-proxy-header X-Forwarded-For \
   --trust-proxy-header X-Forwarded-Port \
   --trust-proxy-header X-Forwarded-Proto \
