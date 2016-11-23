@@ -10,6 +10,10 @@ from flask_restful import Resource, Api
 
 from pymongo import MongoClient, GEO2D
 
+import monitor
+
+monitor.start_monitor()
+
 DB_HOST = os.environ.get('DB_HOST', 'mongodb')
 DB_NAME = os.environ.get('DB_NAME', 'mongodb')
 
@@ -48,6 +52,15 @@ class Siege(Resource):
         return 'OK'
 
 api.add_resource(Siege, '/ws/siege/')
+
+class CpuAverages(Resource):
+    def get(self):
+        result = {}
+        result.update(monitor.cpu_averages())
+        result.update(monitor.capacity_averages())
+        return result
+
+api.add_resource(CpuAverages, '/ws/siege/cpu')
 
 class HealthCheck(Resource):
     def get(self):

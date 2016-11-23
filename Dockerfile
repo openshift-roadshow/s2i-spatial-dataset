@@ -1,6 +1,7 @@
 FROM centos/python-27-centos7
 
 COPY wsgi.py /opt/app-root/
+COPY monitor.py /opt/app-root/
 
 COPY info.json /opt/app-root/src/
 COPY data.csv /opt/app-root/src/
@@ -12,7 +13,7 @@ USER root
 RUN source scl_source enable python27 && \
     virtualenv /opt/app-root && \
     source /opt/app-root/bin/activate && \
-    pip install --no-cache mod_wsgi Flask flask-restful pymongo && \
+    pip install --no-cache mod_wsgi Flask flask-restful pymongo psutil && \
     chmod -Rf g+w /opt/app-root
 
 ENV PATH=/opt/app-root/bin:$PATH

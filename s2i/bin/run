@@ -6,7 +6,7 @@ set -eo pipefail
 
 source /opt/app-root/bin/activate
 
-MOD_WSGI_PROCESSES=${MOD_WSGI_PROCESSES:-3}
+MOD_WSGI_PROCESSES=${MOD_WSGI_PROCESSES:-1}
 MOD_WSGI_THREADS=${MOD_WSGI_THREADS:-15}
 
 exec mod_wsgi-express start-server \
@@ -20,4 +20,5 @@ exec mod_wsgi-express start-server \
   --trust-proxy-header X-Forwarded-Port \
   --trust-proxy-header X-Forwarded-Proto \
   --inactivity-timeout 60 \
+  --python-path /opt/app-root \
   /opt/app-root/wsgi.py
