@@ -79,10 +79,10 @@ class DataLoad(Resource):
         collection.remove({})
         collection.create_index([('Location', GEO2D)])
 
-        with open(DATASET_DATA, 'rb') as fp:
+        with open(DATASET_DATA, 'r', encoding='UTF-8') as fp:
             reader = csv.reader(fp)
 
-            headers = reader.next()
+            headers = next(reader)
 
             entries = []
 

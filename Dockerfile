@@ -1,4 +1,4 @@
-FROM centos/python-27-centos7
+FROM centos/python-35-centos7
 
 COPY wsgi.py /opt/app-root/
 COPY monitor.py /opt/app-root/
@@ -10,13 +10,15 @@ COPY s2i /opt/app-root/s2i
 
 USER root
 
-RUN source scl_source enable python27 && \
+RUN source scl_source enable rh-python35 && \
     virtualenv /opt/app-root && \
     source /opt/app-root/bin/activate && \
     pip install --no-cache mod_wsgi Flask flask-restful pymongo psutil && \
     chmod -Rf g+w /opt/app-root
 
-ENV PATH=/opt/app-root/bin:$PATH
+ENV PATH=/opt/app-root/bin:$PATH \
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
 
 USER 1001
 
