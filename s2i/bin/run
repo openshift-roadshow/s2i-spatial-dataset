@@ -19,6 +19,6 @@ exec mod_wsgi-express start-server \
   --trust-proxy-header X-Forwarded-For \
   --trust-proxy-header X-Forwarded-Port \
   --trust-proxy-header X-Forwarded-Proto \
-  --inactivity-timeout 60 \
+  --restart-interval 60 \
   --python-path /opt/app-root \
   /opt/app-root/wsgi.py
