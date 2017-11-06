@@ -4,6 +4,8 @@ import os
 import csv
 import json
 import time
+import requests
+import threading
 
 from flask import Flask, request
 from flask_restful import Resource, Api
@@ -137,3 +139,18 @@ class DataWithin(Resource):
         return format_result(collection.find(query))
 
 api.add_resource(DataWithin, '/ws/data/within')
+
+def preload():
+    while True:
+        try:
+            print('Attempt load dataset')
+            requests.get('http://localhost:8080/ws/data/load')
+        except Exception:
+            time.sleep(5.0)
+        else:
+            print('Dataset loaded')
+            break
+
+_thread = threading.Thread(target=preload)
+_thread.setDaemon(True)
+_thread.start()

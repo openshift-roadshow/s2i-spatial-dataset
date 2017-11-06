@@ -11,7 +11,7 @@ COPY s2i /opt/app-root/s2i
 USER root
 
 RUN source /opt/app-root/etc/scl_enable && \
-    pip install --no-cache mod_wsgi Flask flask-restful pymongo psutil && \
+    pip install --no-cache mod_wsgi Flask flask-restful pymongo psutil requests && \
     fix-permissions /opt/app-root
 
 USER 1001
