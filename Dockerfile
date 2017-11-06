@@ -10,15 +10,9 @@ COPY s2i /opt/app-root/s2i
 
 USER root
 
-RUN source scl_source enable rh-python35 && \
-    virtualenv /opt/app-root && \
-    source /opt/app-root/bin/activate && \
+RUN source /opt/app-root/etc/scl_enable && \
     pip install --no-cache mod_wsgi Flask flask-restful pymongo psutil && \
-    chmod -Rf g+w /opt/app-root
-
-ENV PATH=/opt/app-root/bin:$PATH \
-    LANG=en_US.UTF-8 \
-    LC_ALL=en_US.UTF-8
+    fix-permissions /opt/app-root
 
 USER 1001
 
